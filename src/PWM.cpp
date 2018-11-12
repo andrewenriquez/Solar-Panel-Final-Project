@@ -17,6 +17,7 @@ void turnOFF(){
 OCR4A=0;//Need to adjust this I am not quite sure what frequencies are too low to hear
 OCR4B=0;//Needs to be half of OCR4A for 50 percent duty cycle
 }
+
 void turnON(){
 TCCR4A |= (1 << COM4A1)|(1 << COM4B1)|(1 << WGM41)|(1<<WGM40);
   TCCR4B |= (1 << WGM43)|(1 << WGM42)|(1<<CS40);

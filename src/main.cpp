@@ -13,6 +13,7 @@
 #include "PWM.h"
 #include "timer.h" 
 #include "adc.h"
+#include "i2c.h"
 //#include "switch.h"
 
 /*
@@ -31,6 +32,9 @@ int main() {
   //initTimer0();
   initADC();
   //initSwitchPB3();
+  initI2CMaster();
+
+  
 
 Serial.begin(9600);
 
@@ -38,7 +42,9 @@ sei();
   
   
   while (1) {
-
+    //delayMs(1000);
+   ADXL_I2C(0xA6, 0xA7, 0x32);
+   //delayMs(1000);
   
   
   }

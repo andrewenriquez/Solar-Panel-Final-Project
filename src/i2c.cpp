@@ -137,6 +137,7 @@ void ADXL_I2C(unsigned char addressW, unsigned char addressR, unsigned char regA
     switch(i2c_state){
       case start:
         Serial.println("Case: Start");
+        Serial.println(twi_status);
         TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
         Serial.println(count);
         if (count > 0) {
@@ -176,7 +177,8 @@ void ADXL_I2C(unsigned char addressW, unsigned char addressR, unsigned char regA
         Serial.println(twi_status);
         // start or repeated start
        
-        if(twi_status != 0x10 && twi_status != 0x08){
+        //if(twi_status != 0x10 && twi_status != 0x08){ //original
+        if (twi_status != 0x18) { // Not (SLA+W has been transmitted; ACK has been received)
           Serial.println("reg: back to start");
           i2c_state = start;
         }
@@ -199,7 +201,7 @@ void ADXL_I2C(unsigned char addressW, unsigned char addressR, unsigned char regA
           //TWDR = (address << 1);
           TWDR = addressR;
           Serial.println("set R");
-          TWCR = (1 << TWINT) | (1 << TWEN) | (1 << TWEA);
+          TWCR = (1 << TWINT) | (1 << TWEN)| (1 << TWEA);
           i2c_state = data0;
         }
         break;
@@ -214,7 +216,9 @@ void ADXL_I2C(unsigned char addressW, unsigned char addressR, unsigned char regA
         }
         else{
           //TWDR = data;
-          if (twi_status)
+          //if (twi_status)
+          unsigned int inputData = TWDR;
+          Serial.println(inputData);
           TWCR = (1 << TWINT) | (1 << TWEN);
           //Serial.println("i2c_address");
           //Serial.println(TWDR);

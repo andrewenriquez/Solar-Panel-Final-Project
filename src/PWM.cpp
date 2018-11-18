@@ -30,3 +30,15 @@ void PWMChangeFrequency(){
     OCR4B =OCR4A/2; 
   
 }
+
+//Change OCR1A to correct timer n
+void setServoDegree(unsigned int degree) {
+    if (degree > 175) {
+        degree = 180;
+    }
+    else if (degree < 0) {
+        degree = 0;
+    }
+    OCR1A = ceil((2.83 * degree) + 100);
+    Serial.println(OCR1A);
+}

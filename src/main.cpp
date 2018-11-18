@@ -42,8 +42,9 @@ sei();
   
   
   while (1) {
-    //delayMs(1000);
-   ADXL_I2C(0xA6, 0xA7, 0x32);
+    //delayMs(1000);f
+   //ADXL_I2C(0x18, 0x18, 0x02);
+   sendData(0x18, 0x02);
    delayMs(1000);
   
   

@@ -54,8 +54,8 @@ void sendData(unsigned char address, unsigned char data){
         }
 
         else{
-          TWDR = address; //changed this for SLA+W or SLA+R input
-          //TWDR = (address << 1);
+         // TWDR = address; //changed this for SLA+W or SLA+R input
+          TWDR = (address << 1);
 
           TWCR = (1 << TWINT) | (1 << TWEN);
 
@@ -74,7 +74,7 @@ void sendData(unsigned char address, unsigned char data){
         }
 
         else{
-          Serial.println(TWDR);
+          //Serial.println(TWDR);
           TWDR = data;
           //Serial.println(TWDR);
           TWCR = (1 << TWINT) | (1 << TWEN);
@@ -126,7 +126,7 @@ void sendData(unsigned char address, unsigned char data){
  * SLA+R->Stop
  * 
  * **/
-void ADXL_I2C(unsigned char addressW, unsigned char addressR, unsigned char regAddress){
+/* void ADXL_I2C(unsigned char addressW, unsigned char addressR, unsigned char regAddress){
   i2c_internal_state i2c_state = start;
 
   unsigned char twi_status;
@@ -259,7 +259,7 @@ void ADXL_I2C(unsigned char addressW, unsigned char addressR, unsigned char regA
        Serial.println("Getting past the delay while");
     }
   }
-}
+} */
 /*
 #include <Arduino.h>
 #include "i2c.h"

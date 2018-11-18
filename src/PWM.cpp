@@ -4,15 +4,27 @@
 // Assignment:     Lab 4
 //------------------------------------------------------------------//
 #include "PWM.h"
-
+#include "math.h"
+#include "Arduino.h"
 #include <avr/io.h>
 #include "timer.h"
+
 void initPWMTimer4(){
   DDRH |= (1 << DDH4); // output to pin 7
   OCR4A=0;
-
-
 }
+
+void initPWMTimer1() {
+    DDRB |= (1 << DDB5); //pin 11 on dev board
+
+    // set Fast PWM 10-bit mode, non-inverting
+    TCCR1A |= (1 << COM1A1) | (1 << WGM11) | (1 << WGM10);
+    TCCR1B |= (1 << WGM12) | (1 << CS11) | (1 << CS10);
+
+    //duty cycle to 25%
+    //OCR1A = 610; 
+}
+
 void turnOFF(){
 OCR4A=0;//Need to adjust this I am not quite sure what frequencies are too low to hear
 OCR4B=0;//Needs to be half of OCR4A for 50 percent duty cycle

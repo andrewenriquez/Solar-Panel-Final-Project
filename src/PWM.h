@@ -13,6 +13,8 @@ void turnON();
 
 void PWMChangeFrequency();
 
+void initPWMTimer1();
+void setServoDegree(unsigned int degree);
 //void delayUs(unsigned int delay);
 
 #endif

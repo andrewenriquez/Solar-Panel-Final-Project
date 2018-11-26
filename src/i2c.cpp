@@ -4,6 +4,7 @@
 #include "i2c.h"
 #include "Arduino.h"
 #include <avr/io.h>
+#include "Wire.h"
 
  
 
@@ -340,4 +341,166 @@ void sendData(unsigned char address, unsigned char data) {
            
 }*/
 
+// MCP9808 I2C address is 0x18(24)
+#define Addr 0x18
+/*
+float convertTempC(int temp);
+float convertTempF(int temp);
+int getTemp();
+void i2cInit();
+
+int main() {
+    // Initialise Serial Communication, set baud rate = 9600 
+     
+    Serial.begin(9600); 
+    i2cInit();
+    int temp;
+    float celTemp;
+    float fahTemp;
+    
+    while(1) {
+        delay(500);
+        temp = getTemp();
+        delay(500);
+        celTemp = convertTempC(temp);
+        delay(500);
+        fahTemp = convertTempF(temp);
+        delay(500);
+        Serial.print("Temperature in Celsius : ");  
+        Serial.println(celTemp);  
+        Serial.println(" C");  
+        Serial.print("Temperature in Fahrenheit : ");  
+        Serial.println(fahTemp);  
+        Serial.println(" F");
+
+        delay(500);
+        
+
+    }
+    return 0;
+}
+
+void i2cInit(){
+    Serial.println("endtrans");
+    // Initialise I2C communication as MASTER  
+    Wire.begin();     
+    // Start I2C Transmission  
+    Wire.beginTransmission(0x18);  
+    // Select configuration register  
+    Wire.write(0x01);  
+    // Continuous conversion mode, Power-up default  
+    Wire.write(0x00);  
+    Wire.write(0x00);  
+    // Stop I2C Transmission  
+    Wire.endTransmission();    
+    // Start I2C Transmission  
+    Wire.beginTransmission(Addr);  
+    // Select resolution register  
+    Wire.write(0x08);  
+    // Resolution = +0.0625 / C  
+    Wire.write(0x03);  
+    // Stop I2C Transmission  
+    Wire.endTransmission();
+    
+}
+
+int getTemp() {
+    unsigned int data[2];    
+    // Starts I2C communication  
+    Wire.beginTransmission(Addr);  
+    // Select data register  
+    Wire.write(0x05);  
+    // Stop I2C transmission  
+    Wire.endTransmission();    
+    // Request 2 bytes of data  
+    Wire.requestFrom(Addr, 2);    
+    // Read 2 bytes of data  
+    // temp MSB, temp LSB  
+    if(Wire.available() == 2)  
+    {    
+    data[0] = Wire.read();    
+    data[1] = Wire.read();  
+    }    
+    // Convert the data to 13-bits  
+    int temp = ((data[0] & 0x1F) * 256 + data[1]);  
+    if(temp > 4095)  
+    {    
+    temp -= 8192;  
+    }
+
+    return temp; 
+}
+
+float convertTempC(int temp) {
+    float cTemp = temp * 0.0625;  
+    return cTemp;
+    //delay(500);
+}
+
+float convertTempF(int temp) {
+    float cTemp = temp * 0.0625;  
+    float fTemp = cTemp * 1.8 + 32;    
+    return fTemp;
+    //delay(500);
+}
+*/
+void setup(){   
+// Initialise I2C communication as MASTER  
+Wire.begin();  
+// Initialise Serial Communication, set baud rate = 9600  
+Serial.begin(9600);    
+// Start I2C Transmission  
+Wire.beginTransmission(Addr);  
+// Select configuration register  
+Wire.write(0x01);  
+// Continuous conversion mode, Power-up default  
+Wire.write(0x00);  
+Wire.write(0x00);  
+// Stop I2C Transmission  
+Wire.endTransmission();    
+// Start I2C Transmission  
+Wire.beginTransmission(Addr);  
+// Select resolution register  
+Wire.write(0x08);  
+// Resolution = +0.0625 / C  
+Wire.write(0x03);  
+// Stop I2C Transmission  
+Wire.endTransmission();
+}
+
+
+void loop(){  
+unsigned int data[2];    
+// Starts I2C communication  
+Wire.beginTransmission(Addr);  
+// Select data register  
+Wire.write(0x05);  
+// Stop I2C transmission  
+Wire.endTransmission();    
+// Request 2 bytes of data  
+Wire.requestFrom(Addr, 2);    
+// Read 2 bytes of data  
+// temp MSB, temp LSB  
+if(Wire.available() == 2)  
+{    
+data[0] = Wire.read();    
+data[1] = Wire.read();  
+}    
+// Convert the data to 13-bits  
+int temp = ((data[0] & 0x1F) * 256 + data[1]);  
+if(temp > 4095)  
+{    
+temp -= 8192;  
+}  
+float cTemp = temp * 0.0625;  
+float fTemp = cTemp * 1.8 + 32;    
+// Output data to screen  
+Serial.print("Temperature in Celsius : ");  
+Serial.println(cTemp);  
+Serial.println(" C");  
+Serial.print("Temperature in Fahrenheit : ");  
+Serial.println(fTemp);  
+Serial.println(" F");  
+delay(500);
+}
 

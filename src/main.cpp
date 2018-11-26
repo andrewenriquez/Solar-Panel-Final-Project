@@ -63,3 +63,38 @@ ISR(ADC_vect){
    //result+=((unsigned int)ADCH) << 8;
   ADCSRA |= (1 << ADSC);
 }
+
+
+
+/*
+int main() {
+    // Initialise Serial Communication, set baud rate = 9600 
+     
+    Serial.begin(9600); 
+    i2cInit();
+    int temp0;
+    float celTemp;
+    float fahTemp;
+    
+    while(1) {
+        delay(500);
+        temp0 = i2cTemp();
+        delay(500);
+        celTemp = convertTempC(temp0);
+        delay(500);
+        fahTemp = convertTempF(temp0);
+        delay(500);
+        Serial.print("Temperature in Celsius : ");  
+        Serial.println(celTemp);  
+        Serial.println(" C");  
+        Serial.print("Temperature in Fahrenheit : ");  
+        Serial.println(fahTemp);  
+        Serial.println(" F");
+
+        delay(500);
+        
+
+    }
+    return 0;
+}
+*/

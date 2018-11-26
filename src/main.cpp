@@ -34,7 +34,7 @@ int main() {
   //initSwitchPB3();
   initI2CMaster();
 
-  
+  initPWMTimer5();
 
 Serial.begin(9600);
 
@@ -44,9 +44,10 @@ sei();
   while (1) {
     //delayMs(1000);f
    //ADXL_I2C(0x18, 0x18, 0x02);
-   sendData(0x18, 0x02);
-   delayMs(1000);
-  
+   //sendData(0x18, 0x02);
+   delayMs(100);
+   setServoDegree5(45);
+   setServoDegree(90);
   
   }
 

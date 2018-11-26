@@ -10,91 +10,46 @@
 
 #include <avr/io.h>
 #include <Arduino.h>
-#include "PWM.h"
-#include "timer.h" 
-#include "adc.h"
-#include "i2c.h"
-//#include "switch.h"
-
-/*
- * Define a set of states that can be used in the state machine using an enum
- */
-
-/* typedef enum stateType_enum {
-  wait_press, debounce_press, wait_release, debounce_release, count_sec
-} stateType; */
+//#include "timer.h" 
+//#include "i2c.h"
 
 
 int main() {
-
-  initPWMTimer4();
-  //initTimer1();
-  //initTimer0();
-  initADC();
-  //initSwitchPB3();
-  initI2CMaster();
-
-  
-
-Serial.begin(9600);
-
-sei();
-  
-  
-  while (1) {
-    //delayMs(1000);f
-   //ADXL_I2C(0x18, 0x18, 0x02);
-   sendData(0x18, 0x02);
-   delayMs(1000);
-  
-  
-  }
-
-
-  return 0;
-}
-
-/**Had to implement an ISR for the 1ms sample rating using timer1.
- * Couldn't figure out how to do it otherwise.
- **/
-ISR(ADC_vect){
-  
-  //result=ADCL;
-   //result+=((unsigned int)ADCH) << 8;
-  ADCSRA |= (1 << ADSC);
-}
-
-
-
-/*
-int main() {
+   Serial.begin(9600);
     // Initialise Serial Communication, set baud rate = 9600 
-     
-    Serial.begin(9600); 
-    i2cInit();
-    int temp0;
-    float celTemp;
+    /*int temp0;
+    float cTemp;
     float fahTemp;
-    
+    */
+   
+    Serial.println("initlization"); 
+    //delayMs(500);
+   /* initTimer1();
+    Serial.println("Getting past timer1"); 
+    initTimer0();
+    Serial.println("Getting past timer0"); 
+    i2cInit(); 
+    Serial.println("Getting past i2cInit"); 
+    Serial.println("Getting past initlization"); 
+
     while(1) {
-        delay(500);
-        temp0 = i2cTemp();
-        delay(500);
-        celTemp = convertTempC(temp0);
-        delay(500);
-        fahTemp = convertTempF(temp0);
-        delay(500);
-        Serial.print("Temperature in Celsius : ");  
-        Serial.println(celTemp);  
-        Serial.println(" C");  
-        Serial.print("Temperature in Fahrenheit : ");  
+        //delay(500);
+        temp0 = getTemp();
+        Serial.println("Getting past getTemp "); 
+        //delay(500);
+
+        cTemp = convertC(temp0);
+        Serial.println("Temperature in Celsius : ");  
+        Serial.println(cTemp);  
+        Serial.println(" C");   
+        //delay(500);
+
+        fahTemp = convertF(temp0);
+        Serial.println("Temperature in Fahrenheit : ");  
         Serial.println(fahTemp);  
-        Serial.println(" F");
-
-        delay(500);
-        
-
+        Serial.println(" F");  
+        //delay(500);
     }
     return 0;
+    */
 }
-*/

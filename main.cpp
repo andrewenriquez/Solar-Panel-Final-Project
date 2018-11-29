@@ -5,21 +5,18 @@
 #include "adc.h"
 #include <math.h>
 int main (){
+  //Initialize devices
   initPWMTimer1();
   initPWMTimer2();
-   // initialize devices
   initTimer0();
-initADC7();
+  initADC7();
   Serial.begin(9600);
   unsigned int result1 = 0, result2 = 0, result3 = 0, result4 = 0;
   int changeResult = 0;
   unsigned int A0,A1,A2,A3;
-  /*while(1){
-    moveTo(0,72);
-    moveTo2(0,180);
-  }*/
+  
 
-
+// To grab information from the photo resistors
   while(1){
      
     if(changeResult == 3)
@@ -30,9 +27,7 @@ initADC7();
     Serial.println((float)result3/1024.00 *5.00);
     Serial.println("result for A3");
     changeResult = 0;
-      if((fabs(A0-A1)>=1.5)&&changeResult==0){
-   moveTo(0,45);
-}
+ 
   }
 
 
@@ -69,10 +64,6 @@ initADC7();
   }
 
   Select(changeResult);
-  //IsEqual(result1, result2, result3, result4);
-
-  // if((fabs(A0-A1)>=1.5)&&changeResult==0){
-  //moveTo(0,45);
 
 
   }

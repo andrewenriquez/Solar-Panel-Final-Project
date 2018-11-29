@@ -17,16 +17,16 @@ void initPWMTimer1() {
 }
 
 void setServoDegree(unsigned int degree) {
-    if (degree > 72) {
+    if (degree > 72) {//With how the top servo is built if it rotates past this degree it will hit the structure
         degree = 72;
     }
     else if (degree < 0) {
-        degree = 0;
+        degree = 0;//make sure that it is not negative
     }
-    OCR1A = ceil((2.83 * degree) + 100);
+    OCR1A = ceil((2.83 * degree) + 100);//set OCRnA to the appropriate value given the degree
   
 }
-void moveTo(int originalposition, int newposition){
+void moveTo(int originalposition, int newposition){//same as the function in left right PWM if move the servo from one position to another
 if(newposition>originalposition){
     for(unsigned int j=originalposition;j<=newposition;j++){
     setServoDegree(j);

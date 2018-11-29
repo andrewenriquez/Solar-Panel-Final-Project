@@ -23,20 +23,20 @@ void setServoDegree2(unsigned int degree) {
     else if (degree < 0) {
         degree = 0;
     }
-    OCR3A = ceil((2.83 * degree) + 100);
+    OCR3A = ceil((2.83 * degree) + 100);//To set the degree that we want to move to the appropiate OCRnA value
     
 }
-void moveTo2(int originalposition, int newposition){
-if(newposition>originalposition){
+void moveTo2(int originalposition, int newposition){// to move the servo from one position to another
+if(newposition>originalposition){// determining which way the servo has to move counter clockwise or clockwise
     for(unsigned int j=originalposition;j<=newposition;j++){
     setServoDegree2(j);
 
         for(unsigned int i=0;i<25000;i++){
-            delayMs(1);
+            delayMs(1);// have to give a delay for the servo to move properly This is the delay that I found to be the smoothest moving
         }
     }
 }
-else{
+else{//to move in the clockwise direction
      for(unsigned int j=originalposition;j>=newposition;j--){
     setServoDegree2(j);
 

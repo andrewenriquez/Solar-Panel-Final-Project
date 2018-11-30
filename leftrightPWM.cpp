@@ -8,7 +8,7 @@
 #include "leftrightPWM.h"
 #include <avr/io.h>
 #include "timer.h"
-void initPWMTimer2() {
+void initPWMTimer3() {
     DDRE |= (1 << DDE3); //pin 5 on dev board
 
     // set Fast PWM 10-bit mode, non-inverting

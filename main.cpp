@@ -6,8 +6,8 @@
 #include <math.h>
 int main (){
   //Initialize devices
-  initPWMTimer1();
-  initPWMTimer2();
+  initPWMTimer4();
+  initPWMTimer3();
   initTimer0();
   initADC7();
   Serial.begin(9600);

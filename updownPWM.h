@@ -5,7 +5,7 @@
 #include <math.h>
 //void initPWMTimer1();
 
-void initPWMTimer1();
+void initPWMTimer4();
 
 void turnOFF();
 

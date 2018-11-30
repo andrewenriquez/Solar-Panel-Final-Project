@@ -8,12 +8,12 @@
 #include "updownPWM.h"
 #include <avr/io.h>
 #include "timer.h"
-void initPWMTimer1() {
-    DDRB |= (1 << DDB5); //pin 11 on dev board
+void initPWMTimer4() {
+    DDRH |= (1 << DDH3); //pin 6 on dev board
 
     // set Fast PWM 10-bit mode, non-inverting
-    TCCR1A |= (1 << COM1A1) | (1 << WGM11) | (1 << WGM10);
-    TCCR1B |= (1 << WGM12) | (1 << CS11) | (1 << CS10);
+    TCCR4A |= (1 << COM4A1) | (1 << WGM41) | (1 << WGM40);
+    TCCR4B |= (1 << WGM42) | (1 << CS41) | (1 << CS40);
 }
 
 void setServoDegree(unsigned int degree) {
@@ -23,7 +23,7 @@ void setServoDegree(unsigned int degree) {
     else if (degree < 0) {
         degree = 0;//make sure that it is not negative
     }
-    OCR1A = ceil((2.83 * degree) + 100);//set OCRnA to the appropriate value given the degree
+    OCR4A = ceil((2.83 * degree) + 100);//set OCRnA to the appropriate value given the degree
   
 }
 void moveTo(int originalposition, int newposition){//same as the function in left right PWM if move the servo from one position to another

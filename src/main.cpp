@@ -19,6 +19,11 @@
   wait_press, debounce_press, wait_release, debounce_release, count_sec
 } stateType; */
 
+//change pin is used to switch from the pin we taking measument from and c stands for count
+volatile int changePin = 0, c = 0; 
+//these veriables will store the valtage values
+volatile float v0 = 0, v1 = 0, v2 = 0, v3 = 0;
+
 
 int main() {
 
@@ -50,14 +55,60 @@ sei();
   return 0;
 }
 
-/**Had to implement an ISR for the 1ms sample rating using timer1.
- * Couldn't figure out how to do it otherwise.
- **/
-ISR(ADC_vect){
+
+ISR(TIMER1_COMPA_vect){
   
-  //result=ADCL;
-   //result+=((unsigned int)ADCH) << 8;
-  ADCSRA |= (1 << ADSC);
+  //this is how we take the 1 seconds sample rate from the adc, we are basically calling the timer 100 times
+  //change where the 100 is position to increase the sample rate
+  //we can use the values of v0, v1, v2, and v3 to move the servos
+    if(c  < 100){
+      c++;
+      }
+    else{
+         //after calling timer 100 times, we take our samples and reset the variable c
+         c = 0;
+         Serial.println("Taking Samples");
+
+         //here we are taking all 4 samples at the same time
+
+        //we are at piin 0
+         if(changePin == 0){
+            v0 = sampleADC(changePin);
+            Serial.println("result for V0");
+            Serial.println(v0);
+            //transition to next pin
+            changePin = 1;
+          }
+        // we are at pin 1
+        if(changePin == 1){
+
+            v1 = sampleADC(changePin);
+            Serial.println("result for V1");
+            Serial.println(v1);
+            //transiton to next pin ...and so on
+            changePin = 2;
+            
+          }
+
+          if(changePin == 2){
+
+            v2 = sampleADC(changePin);
+            Serial.println("result for V2");
+            Serial.println(v2);
+            changePin = 3;
+          }
+
+          if(changePin == 3){
+
+            v3 = sampleADC(changePin);
+            Serial.println("result for V3");
+            Serial.println(v3);
+            changePin = 0;
+            Serial.println("\n");
+          }  
+          
+        
+      }
 }
 
 
@@ -102,5 +153,6 @@ int main() {
         //delay(500);
     }
     return 0;
+   } 
     */
-}
+

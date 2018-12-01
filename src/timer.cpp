@@ -29,19 +29,20 @@ void initTimer0(){
 */
 void initTimer1(){
   //This is CTC mode for timer 1.
-    TCCR1A &= ~(1 << WGM11 | 1 << WGM10 | 1 << WGM13);
-    TCCR1B |= (1 << WGM12);
-    TCCR1B |= (1 << CS11) | (1<<CS10);
-    OCR1A = 250;
-    TCCR1A |= (1 << COM1B0); //Toggle OC1A on compare match
-     
+  TCCR1A &= ~(1 << WGM11 | 1 << WGM10 | 1 << WGM13);
+  TCCR1B |= (1 << WGM12);
 
-  // Set the mode to be CTC for timer 0
-  /*
-  TCCR0A |= (1 << WGM01);
-  TCCR0A &= ~(1 << WGM00);
-  TCCR0B &= ~(1 << WGM02);
-*/
+  //64 prescalor
+  TCCR1B |= (1 << CS12) | (1<<CS10);
+
+    
+  //OCR1A = 2500  --- 2500 * 64 = 160000/16E6 = 10 ms
+	OCR1AL = 0xF1;
+	OCR1AH = 0xF1;
+
+    
+  //Enable TIMER1 interupts for CTC mode
+  TIMSK1 |= (1 << OCIE1A);   
 }
 
 /* This delays the program an amount specified by unsigned int delay.

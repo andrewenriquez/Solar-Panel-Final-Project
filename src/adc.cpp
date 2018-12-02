@@ -1,37 +1,80 @@
 #include "adc.h"
-#include "timer.h"
-//#include <avr/io.h>
+#include <avr/io.h>
+#include <Arduino.h>
+//#include "timer.h"
+
+void initADC(){
+	// set voltage references to be AVCC
+	  ADMUX |= (1 << REFS0);
+	  ADMUX &= ~(1 << REFS1);
+      
+	// ADLAR = 0 (RIGHT JUSTIFIED)
+	  ADMUX &= ~(1 << ADLAR);
+	
+    // Set A0
+	  ADMUX &= ~((1 << MUX0) | (1 << MUX1) | (1 << MUX2) | (1 << MUX3) | (1 << MUX4));
+	  ADCSRB &= ~(1 << MUX5);
+
+	//enable ADC
+	  ADCSRA |= (1 << ADEN);
+	//disable auto trigger, do single conversions and wait 	//until conversion is complete
+	  ADCSRA &= ~(1 << ADATE);
+	
+	  // set the pre-scaler ADC clock to 128
+	  // ADC clock frequency is 16 Mhz divided by pre-scaler = 125KHz
+	  ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
+	
+	  // disable ADC0 pin digital input - pin A0 on board
+	   DIDR0 |= (1 << ADC3D) | (1 << ADC2D) | (1 << ADC1D) | (1 << ADC0D);
+}
 
 
-void initADC()
-{
-    //set voltage reference and right shift
-    ADMUX |= (1 << REFS0);
+//thi function will be used to take samples from the 4 different 4 pins.
+//selectPin determine the pin we are taking measument from and return the values in voltage form
 
-    //Right Adjust
-    ADMUX &= ~(1 << ADLAR);
+float sampleADC(int selectPin){
+  
+    if(selectPin == 0)
+    {
+        //pin A0
+        ADMUX &= ~(1 << MUX0 | 1 << MUX1 | 1 << MUX2 | 1 << MUX3 | 1 << MUX4 | 1 << MUX5);
+    }
+    else if(selectPin == 1)
+    {
+        //pint A1
+        ADMUX |= (1 << MUX0);
+        ADMUX &= ~(1 << MUX1 | 1 << MUX2 | 1 << MUX3 | 1 << MUX4 | 1 << MUX5);
+    }
+    else if(selectPin == 2)
+    {
+        //pin A2
+        ADMUX |= (1 << MUX1);
+        ADMUX &= ~(1 << MUX0 | 1 << MUX2 | 1 << MUX3 | 1 << MUX4 | 1 << MUX5);
+    }
+    else if(selectPin == 3)
+    {
+        //pin A3
+        ADMUX |= (1 << MUX0) | (1 << MUX1);
+        ADMUX &= ~(1 << MUX2 | 1 << MUX3 | 1 << MUX4 | 1 << MUX5);
+    }
+    else if(selectPin == 4)
+    {
+        ADMUX |= (1 << MUX2);
+        ADMUX &= ~(1 << MUX0 | 1 << MUX1 | 1 << MUX3 | 1 << MUX4 | 1 << MUX5);
 
-    //set free running
-    //ADCSRB &= ~(1 << ADTS2 | 1<<ADTS1 | 1 << ADTS0);
+    }
 
-    //set compare match B
-    
-    ADCSRB |= (1 << ADTS0); 
-    ADCSRB &= ~(1 << ADTS1);
-    ADCSRB |= (1<<ADTS2);
 
-    //set Timer0 compare match A
-    //ADCSRB |= (1<<ADTS1) | (1 << ADTS0); 
-    
-    //Enable Interuptsc
-    ADCSRA |= (1 << ADIE);
+ // start the first conversion
+  ADCSRA |= (1 << ADSC);
 
-    //turn on ADC 
-    ADCSRA |= (1 << ADEN);
+//wait for conversion to finish, this  way you  dont use interrupt  
+  while(ADCSRA & (1 << ADSC)){}
 
-    // disable digital input
-    DIDR0 |= (1 << ADC2D) | (1 << ADC1D) | (1 << ADC0D);
 
-    //start conversion prescalar 128
-    ADCSRA |= (1 << ADSC) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
+  //we are returning the value in voltage form
+  unsigned int result = ADCL;
+  result +=((unsigned int)ADCH) << 8;
+  return (float)result/1024*5;
+
 }

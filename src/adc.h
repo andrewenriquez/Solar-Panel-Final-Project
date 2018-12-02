@@ -12,5 +12,6 @@
 #include <avr/io.h>
 
 void initADC();
+float sampleADC(int selectPin);
 
 #endif

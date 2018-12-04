@@ -1,5 +1,8 @@
-
-
+/// Author:        Andrew Enriquez & Rachael Seedenburg & Zahra Sadeq, Sahachel Flores 
+// Net ID:         andrewenriquez, zahrasadeq,rtseeden, sflores1
+// Date:           11/24/2018
+// Assignment:     Final Project
+//------------------------------------------------------------------//
 
 #include "i2c.h"
 #include "Arduino.h"

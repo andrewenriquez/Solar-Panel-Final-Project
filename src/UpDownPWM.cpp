@@ -1,7 +1,7 @@
-/// Author:        Andrew Enriquez & Rachael Seedenburg, 
-// Net ID:         andrewenriquez, 
-// Date:           10/24/2018
-// Assignment:     Lab 4
+/// Author:        Andrew Enriquez & Rachael Seedenburg & Zahra Sadeq, Sahachel Flores 
+// Net ID:         andrewenriquez, zahrasadeq,rtseeden, sflores1
+// Date:           11/24/2018
+// Assignment:     Final Project
 //------------------------------------------------------------------//
 #include <Arduino.h>
 #include "updownPWM.h"
@@ -15,7 +15,7 @@ void initPWMTimer4() {
     TCCR4B |= (1 << WGM42) | (1 << CS41) | (1 << CS40);
 }
 
-void setServoDegree(unsigned int degree) {
+void setServoDegreeUD(unsigned int degree) {
     if (degree > 72) {//With how the top servo is built if it rotates past this degree it will hit the structure
         degree = 72;
     }
@@ -25,10 +25,10 @@ void setServoDegree(unsigned int degree) {
     OCR4A = ceil((2.83 * degree) + 100);//set OCRnA to the appropriate value given the degree
   
 }
-void moveTo(int originalposition, int newposition){//same as the function in left right PWM if move the servo from one position to another
+void moveToUD(int originalposition, int newposition){//same as the function in left right PWM if move the servo from one position to another
 if(newposition>originalposition){
     for(unsigned int j=originalposition;j<=newposition;j++){
-    setServoDegree(j);
+    setServoDegreeUD(j);
 
         for(unsigned int i=0;i<25000;i++){
             delayMs(1);
@@ -37,7 +37,7 @@ if(newposition>originalposition){
 }
 else{
      for(unsigned int j=originalposition;j>=newposition;j--){
-    setServoDegree(j);
+    setServoDegreeUD(j);
 
         for(unsigned int i=0;i<25000;i++){
             delayMs(1);

@@ -4,7 +4,6 @@
 // Assignment:     Final Project
 //----------------------------------------------------------------------//
 
-
 #ifndef ADC_H
 #define ADC_H
 

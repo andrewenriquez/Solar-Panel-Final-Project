@@ -1,3 +1,9 @@
+/// Author:        Andrew Enriquez & Rachael Seedenburg & Zahra Sadeq, Sahachel Flores 
+// Net ID:         andrewenriquez, zahrasadeq,rtseeden, sflores1
+// Date:           11/24/2018
+// Assignment:     Final Project
+//------------------------------------------------------------------//
+
 #ifndef UPDOWNPWM_H
 #define UPDOWNPWM_H
 
@@ -12,7 +18,7 @@ void turnOFF();
 void turnON();
 
 void PWMChangeFrequency();
-void setServoDegree(unsigned int degree);
+void setServoDegreeUD(unsigned int degree);
 //void delayUs(unsigned int delay);
-void moveTo(int originalposition, int newposition);
+void moveToUD(int originalposition, int newposition);
 #endif

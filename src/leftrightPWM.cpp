@@ -3,6 +3,12 @@
 // Date:           10/24/2018
 // Assignment:     Lab 4
 //------------------------------------------------------------------//
+/// Author:        Andrew Enriquez & Rachael Seedenburg & Zahra Sadeq, Sahachel Flores 
+// Net ID:         andrewenriquez, zahrasadeq,rtseeden, sflores1
+// Date:           11/24/2018
+// Assignment:     Final Project
+//------------------------------------------------------------------//
+
 #include <Arduino.h>
 #include "leftrightPWM.h"
 #include <avr/io.h>
@@ -15,7 +21,7 @@ void initPWMTimer3() {
     TCCR3B |= (1 << WGM32) | (1 << CS31) | (1 << CS30);
 }
 
-void setServoDegree2(unsigned int degree) {
+void setServoDegreeLR(unsigned int degree) {
     if (degree > 175) {
         degree = 180;
     }
@@ -25,10 +31,10 @@ void setServoDegree2(unsigned int degree) {
     OCR3A = ceil((2.83 * degree) + 100);//To set the degree that we want to move to the appropiate OCRnA value
     
 }
-void moveTo2(int originalposition, int newposition){// to move the servo from one position to another
+void moveToLR(int originalposition, int newposition){// to move the servo from one position to another
 if(newposition>originalposition){// determining which way the servo has to move counter clockwise or clockwise
     for(unsigned int j=originalposition;j<=newposition;j++){
-    setServoDegree2(j);
+    setServoDegreeLR(j);
 
         for(unsigned int i=0;i<25000;i++){
             delayMs(1);// have to give a delay for the servo to move properly This is the delay that I found to be the smoothest moving
@@ -37,7 +43,7 @@ if(newposition>originalposition){// determining which way the servo has to move 
 }
 else{//to move in the clockwise direction
      for(unsigned int j=originalposition;j>=newposition;j--){
-    setServoDegree2(j);
+    setServoDegreeLR(j);
 
         for(unsigned int i=0;i<25000;i++){
             delayMs(1);
